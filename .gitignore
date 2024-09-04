@@ -1,0 +1,15 @@
+# Archive Folder
+_arch/
+
+# Data
+*.txt
+
+# Log Files
+*.log
+*.parquet
+
+# Cache Files
+__pycache__/
+
+# Profiling 
+*.prof
