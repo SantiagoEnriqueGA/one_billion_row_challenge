@@ -39,9 +39,8 @@ def main(compare=True):
         "python-singleCore": ("python", "solutions/calculateAverageSingleCore.py"),
         "pypy-singleCore": (pypy_exec, "solutions/calculateAverageSingleCore.py"),
         
-        "python-multiCore": ("python", "solutions/calculateAverageMultiCore.py"),
-        "pypy-multiCore": (pypy_exec, "solutions/calculateAverageMultiCore.py"),
-        # "pypy-multiCore-v2": (pypy_exec, "solutions/calculateAverageMultiCore_v2.py"),
+        "pypy-multiCore-concurent": (pypy_exec, "solutions/calculateAverageMultiCore_concurent.py"),
+        "pypy-multiCore-mutiproccess": (pypy_exec, "solutions/calculateAverageMultiCore_multiprocessing.py"),
         
         "pyspark": (pyspark_exec, "solutions/calculateAveragePySpark.py"),
         
@@ -64,6 +63,8 @@ def main(compare=True):
     for key, (executable, script) in scripts.items():
         total_durations = []
         for run in range(num_runs):
+            if run>0: time.sleep(30)
+            
             output, duration = run_script_with_timing(executable, script)
             total_durations.append(duration)
             

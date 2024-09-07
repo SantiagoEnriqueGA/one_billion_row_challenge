@@ -78,7 +78,9 @@ def _process_file_chunk(file_name: str, chunk_start: int, chunk_end: int):
 def process_file(cpu_count: int, start_end: list):
     """Process data file by distributing chunks across multiple CPUs."""
     with mp.Pool(cpu_count) as p:
+        gc_disable()
         chunk_results = p.starmap(_process_file_chunk, start_end)   # Run chunks in parallel using multiprocessing pool
+        gc_enable() 
 
     result = dict()                                                 # Dictionary to store combined results
 
@@ -99,7 +101,7 @@ def process_file(cpu_count: int, start_end: list):
                 result[location] = measurements     # Add new location with its measurements to the result dictionary
 
     # Print final results in required format
-    # Start printing the result dictionary
+    # # Start printing the result dictionary
     print("{", end="") 
     for location, measurements in sorted(result.items()):
         # Print each location with its min, average, and max measurements
@@ -118,12 +120,10 @@ def main(timer = False):
     cpu_count, start_end = get_file_chunks("measurements.txt")
     process_file(cpu_count, start_end)
 
-
     if timer:
         duration = time.time() - start_time
         print(f"Duration :{duration}")
 
 if __name__ == "__main__":
     main(timer=True)
-    
     
