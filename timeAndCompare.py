@@ -30,50 +30,57 @@ def main(compare=True):
     # Dictionary of executables and scripts
     pypy_exec = r"C:\Users\sega9\anaconda3\envs\my-pypy-env\python.exe"
     pyspark_exec = r"C:\Users\sega9\anaconda3\envs\pyspark_env\python.exe"
+    py39_exec = r"C:\Users\sega9\anaconda3\envs\py39\python.exe"
     scripts = {
-        "duckdb": ("python", "solutions/calculateAverageDuckDB.py"),
+        # "duckdb": ("python", "solutions/blc_DuckDB.py"),
         
-        "polars-cpy": ("python", "solutions/calculateAveragePolars.py"),
-        "polars-pypy": (pypy_exec, "solutions/calculateAveragePolars.py"),
+        # "polars-cpy": ("python", "solutions/blc_Polars.py"),
+        # "polars-pypy": (pypy_exec, "solutions/blc_Polars.py"),
         
-        "python-singleCore": ("python", "solutions/calculateAverageSingleCore.py"),
-        "pypy-singleCore": (pypy_exec, "solutions/calculateAverageSingleCore.py"),
+        # "python-singleCore": ("python", "solutions/blc_SingleCore.py"),
+        # "pypy-singleCore": (pypy_exec, "solutions/blc_SingleCore.py"),
         
-        "pypy-multiCore-concurent": (pypy_exec, "solutions/calculateAverageMultiCore_concurent.py"),
-        "pypy-multiCore-mutiproccess": (pypy_exec, "solutions/calculateAverageMultiCore_multiprocessing.py"),
+        # "pypy-multiCore-concurent": (pypy_exec, "solutions/blc_MultiCore_concurent.py"),
+        # "pypy-multiCore-mutiproccess": (pypy_exec, "solutions/blc_MultiCore_multiprocessing.py"),
         
-        "pyspark": (pyspark_exec, "solutions/calculateAveragePySpark.py"),
+        # "pyspark": (pyspark_exec, "solutions/blc_PySpark.py"),
         
-        "dask": ("python", "solutions/calculateAverageDask.py"),
+        # "dask": ("python", "solutions/blc_Dask.py"),
         
-        "pandas-cpy": ("python", "solutions/calculateAveragePandas.py"),
-        "pandas-cpy-pyarrow": ("python", "solutions/calculateAveragePandasPyarrow.py"),
-        "pandas-pypy": (pypy_exec, "solutions/calculateAveragePandas.py"),
         
-        # "sqlite-cpy": ("python", "solutions/calculateAverageSQLite.py"),
-        # "sqlite-pypy": (pypy_exec, "solutions/calculateAverageSQLite.py"),
+        # "pandas-cpy": ("python", "solutions/blc_Pandas.py"),
+        # "pandas-cpy-pyarrow": ("python", "solutions/blc_PandasPyarrow.py"),
+        # "pandas-pypy": (pypy_exec, "solutions/blc_Pandas.py"),
+        
+        # "sqlite-cpy": ("python", "solutions/blc_SQLite.py"),
+        # "sqlite-pypy": (pypy_exec, "solutions/blc_SQLite.py"),
+        
+        "vaex": (py39_exec, "solutions/blc_Vaex.py"),
+        "pandas-cpy-modin": ("python", "solutions/blc_PandasModin.py"),
     }
 
     num_runs = 3
 
     # Create directories for output and logs if they do not exist
-    os.makedirs("measurements-txt/output", exist_ok=True)
-    os.makedirs("measurements-txt/logs", exist_ok=True)
+    output_dir = "measurements-txt/output"
+    log_dir = "measurements-txt/logs"
+    os.makedirs(output_dir, exist_ok=True)
+    os.makedirs(log_dir, exist_ok=True)
 
     for key, (executable, script) in scripts.items():
         total_durations = []
         for run in range(num_runs):
-            if run>0: time.sleep(30)
+            if run>0: time.sleep(30) # Cool-down between runs
             
             output, duration = run_script_with_timing(executable, script)
             total_durations.append(duration)
             
             # Save the outputs to files
-            save_output_to_file(f"measurements-txt/output/{key}_run{run + 1}.txt", output)
+            save_output_to_file(f"{output_dir}/{key}_run{run + 1}.txt", output)
         
         # Log the execution times
         avg_duration = sum(total_durations) / num_runs
-        with open(f"measurements-txt/logs/{key}_timing.log", "w") as log_file:
+        with open(f"{log_dir}/{key}_timing.log", "w") as log_file:
             for i, duration in enumerate(total_durations, start=1):
                 log_file.write(f"Run {i}: {duration:.4f} seconds\n")
             log_file.write(f"Average Duration: {avg_duration:.4f} seconds\n")
@@ -85,21 +92,26 @@ def main(compare=True):
             print(log_file.read())
 
     if compare:
-        # Compare the outputs
-        comparisons = {
-            "python_vs_pypy": compare_outputs(open("output/python_run1.txt").read(), open("output/pypy_run1.txt").read()),
-            "python_vs_polars": compare_outputs(open("output/python_run1.txt").read(), open("output/polars_run1.txt").read()),
-            "python_vs_duckdb": compare_outputs(open("output/python_run1.txt").read(), open("output/duckdb_run1.txt").read()),
-            "python_vs_dask": compare_outputs(open("output/python_run1.txt").read(), open("output/dask_run1.txt").read()),
-            "python_vs_pyspark": compare_outputs(open("output/python_run1.txt").read(), open("output/pyspark_run1.txt").read()),
-            "python_vs_sqlite-cpython": compare_outputs(open("output/python_run1.txt").read(), open("output/sqlite_run1.txt").read()),
-            "python_vs_sqlite-pypy": compare_outputs(open("output/python_run1.txt").read(), open("output/sqlite-pypy_run1.txt").read()),
-        }
+        # List of comparisons you want to perform
+        comparisons = [
+            ("python-singleCore", "pypy-singleCore"),
+            ("python-singleCore", "polars-cpy"),
+            ("python-singleCore", "duckdb"),
+            ("python-singleCore", "dask"),
+            ("python-singleCore", "pyspark"),
+            ("python-singleCore", "sqlite-cpy"),
+            ("python-singleCore", "sqlite-pypy"),
+        ]
 
-        # Print the differences, if any
-        for comparison_name, diff in comparisons.items():
+        # Compare the outputs
+        for script1, script2 in comparisons:
+            output1 = open(f"{output_dir}/{script1}_run1.txt").read()
+            output2 = open(f"{output_dir}/{script2}_run1.txt").read()
+
+            diff = compare_outputs(output1, output2)
+            comparison_name = f"{script1}_vs_{script2}"
             if diff:
-                print(f"\nDifference between {comparison_name.replace('_', ' and ')}: {diff}")
+                print(f"\nDifference between {comparison_name.replace('_', ' and ')}:\n{diff}")
             else:
                 print(f"\nNo difference between {comparison_name.replace('_', ' and ')}")
 

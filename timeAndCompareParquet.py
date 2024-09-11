@@ -31,14 +31,14 @@ def main(compare=True):
     pypy_exec = r"C:\Users\sega9\anaconda3\envs\my-pypy-env\python.exe"
     pyspark_exec = r"C:\Users\sega9\anaconda3\envs\pyspark_env\python.exe"
     scripts = {               
-        "polars-pypy": (pypy_exec, "solutionsParquet/calculateAveragePolars.py"),
-        "polars-cpy": ("python", "solutionsParquet/calculateAveragePolars.py"),
+        "duckdb": ("python", "solutionsParquet/blc_DuckDB.py"),
         
-        "pyspark": (pyspark_exec, "solutionsParquet/calculateAveragePySpark.py"),
+        "polars-pypy": (pypy_exec, "solutionsParquet/blc_Polars.py"),
+        "polars-cpy": ("python", "solutionsParquet/blc_Polars.py"),
         
-        "duckdb": ("python", "solutionsParquet/calculateAverageDuckDB.py"),
+        "pyspark": (pyspark_exec, "solutionsParquet/blc_PySpark.py"),
         
-        "dask": ("python", "solutionsParquet/calculateAverageDask.py"),
+        "dask": ("python", "solutionsParquet/blc_Dask.py"),
     }
 
     num_runs = 3

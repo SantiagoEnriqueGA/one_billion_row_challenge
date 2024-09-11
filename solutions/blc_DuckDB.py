@@ -11,7 +11,7 @@ def main():
                 ROUND(AVG(measurement), 1) AS mean_measurement,
                 MAX(measurement) AS max_measurement
             FROM READ_CSV(
-                'measurements_X5.txt',
+                'measurements.txt',
                 header=false,
                 columns={'station_name':'VARCHAR','measurement':'DECIMAL(8,1)'},
                 delim=';',
