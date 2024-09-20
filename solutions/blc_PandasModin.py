@@ -2,8 +2,7 @@ import modin.pandas as pd
 import os
 
 def main():
-     # Ensure you're setting up Modin's environment if not already done
-    os.environ["MODIN_ENGINE"] = "ray"  # Modin can also use 'dask' as backend if desired
+    os.environ["MODIN_ENGINE"] = "ray" 
 
     df = (
         pd.read_csv("measurements.txt", sep=";", header=None, names=["station_name", "measurement"])

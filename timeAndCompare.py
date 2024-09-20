@@ -32,31 +32,33 @@ def main(compare=True):
     pyspark_exec = r"C:\Users\sega9\anaconda3\envs\pyspark_env\python.exe"
     py39_exec = r"C:\Users\sega9\anaconda3\envs\py39\python.exe"
     scripts = {
-        # "duckdb": ("python", "solutions/blc_DuckDB.py"),
+        "duckdb": ("python", "solutions/blc_DuckDB.py"),
         
-        # "polars-cpy": ("python", "solutions/blc_Polars.py"),
-        # "polars-pypy": (pypy_exec, "solutions/blc_Polars.py"),
+        "polars-cpy": ("python", "solutions/blc_Polars.py"),
+        "polars-pypy": (pypy_exec, "solutions/blc_Polars.py"),
         
-        # "python-singleCore": ("python", "solutions/blc_SingleCore.py"),
-        # "pypy-singleCore": (pypy_exec, "solutions/blc_SingleCore.py"),
+        "python-singleCore": ("python", "solutions/blc_SingleCore.py"),
+        "pypy-singleCore": (pypy_exec, "solutions/blc_SingleCore.py"),
         
-        # "pypy-multiCore-concurent": (pypy_exec, "solutions/blc_MultiCore_concurent.py"),
-        # "pypy-multiCore-mutiproccess": (pypy_exec, "solutions/blc_MultiCore_multiprocessing.py"),
+        "python-multiCore-concurent": ("python", "solutions/blc_MultiCore_concurent.py"),
+        "python-multiCore-mutiproccess": ("python", "solutions/blc_MultiCore_multiprocessing.py"),
         
-        # "pyspark": (pyspark_exec, "solutions/blc_PySpark.py"),
+        "pypy-multiCore-concurent": (pypy_exec, "solutions/blc_MultiCore_concurent.py"),
+        "pypy-multiCore-mutiproccess": (pypy_exec, "solutions/blc_MultiCore_multiprocessing.py"),
         
-        # "dask": ("python", "solutions/blc_Dask.py"),
+        "pyspark": (pyspark_exec, "solutions/blc_PySpark.py"),
         
+        "dask": ("python", "solutions/blc_Dask.py"),
         
-        # "pandas-cpy": ("python", "solutions/blc_Pandas.py"),
-        # "pandas-cpy-pyarrow": ("python", "solutions/blc_PandasPyarrow.py"),
-        # "pandas-pypy": (pypy_exec, "solutions/blc_Pandas.py"),
+        "pandas-cpy": ("python", "solutions/blc_Pandas.py"),
+        "pandas-cpy-pyarrow": ("python", "solutions/blc_PandasPyarrow.py"),
+        "pandas-pypy": (pypy_exec, "solutions/blc_Pandas.py"),
         
-        # "sqlite-cpy": ("python", "solutions/blc_SQLite.py"),
-        # "sqlite-pypy": (pypy_exec, "solutions/blc_SQLite.py"),
+        "sqlite-cpy": ("python", "solutions/blc_SQLite.py"),
+        "sqlite-pypy": (pypy_exec, "solutions/blc_SQLite.py"),
         
-        "vaex": (py39_exec, "solutions/blc_Vaex.py"),
-        "pandas-cpy-modin": ("python", "solutions/blc_PandasModin.py"),
+        # "vaex": (py39_exec, "solutions/blc_Vaex.py"),
+        # "pandas-cpy-modin": ("python", "solutions/blc_PandasModin.py"),
     }
 
     num_runs = 3
