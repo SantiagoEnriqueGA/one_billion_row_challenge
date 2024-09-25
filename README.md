@@ -35,7 +35,7 @@ station_name=min/mean/max}
 
 ## Performance Results
 
-![alt text](https://raw.githubusercontent.com/SantiagoEnriqueGA/one_billion_row_challenge/refs/heads/main/timeVisualized.png?token=GHSAT0AAAAAACPDF6ZO6AL3PTRUY7VZDMYMZXQSLOQ)
+![alt text](https://raw.githubusercontent.com/SantiagoEnriqueGA/one_billion_row_challenge/refs/heads/main/timeVisualized.png?token=GHSAT0AAAAAACPDF6ZPYRHQIGOOTI7RSK4CZXUTB3A)
 
 
 **Note**: All tests were conducted on a Windows 10 system with an AMD Ryzen 9 4900HS @ 3.00 GHz and 16.0 GB RAM.
